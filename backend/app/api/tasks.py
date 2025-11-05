@@ -18,7 +18,6 @@ def get_module_tasks(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Получить все задания модуля с прогрессом"""
     tasks = db.query(Task).filter(Task.module_id == module_id).order_by(Task.order).all()
     
     result = []
@@ -50,7 +49,6 @@ def get_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Получить задание по ID"""
     task = db.query(Task).filter(Task.id == task_id).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
@@ -79,15 +77,12 @@ def submit_code(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Отправить код на проверку"""
     task = db.query(Task).filter(Task.id == submission.task_id).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    
-    # Проверка кода
+
     result = check_code(submission.code, task.test_cases)
-    
-    # Обновление прогресса
+
     update_progress(db, current_user.id, task.id, submission.code, result["success"])
     
     return result

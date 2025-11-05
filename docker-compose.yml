@@ -8,7 +8,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      - ./backend/oaip_learning.db:/app/oaip_learning.db
     environment:
       - DATABASE_URL=sqlite:///./oaip_learning.db
       - SECRET_KEY=your-secret-key-change-in-production

@@ -2,7 +2,6 @@ import sys
 from io import StringIO
 from typing import List, Dict, Any
 import ast
-import contextlib
 
 def check_code_syntax(code: str) -> tuple[bool, str]:
     try:

@@ -12,8 +12,6 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserSchema)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    """Регистрация нового пользователя"""
-    # Проверка существования
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
@@ -22,7 +20,6 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
-    # Создание пользователя
     hashed_password = get_password_hash(user.password)
     db_user = User(
         username=user.username,
@@ -37,7 +34,6 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
-    """Вход пользователя"""
     user = db.query(User).filter(User.username == user_credentials.username).first()
     
     if not user or not verify_password(user_credentials.password, user.hashed_password):
@@ -55,5 +51,4 @@ def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
 
 @router.get("/me", response_model=UserSchema)
 async def get_me(current_user: User = Depends(get_current_user)):
-    """Получить информацию о текущем пользователе"""
     return current_user

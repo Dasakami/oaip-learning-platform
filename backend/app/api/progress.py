@@ -13,5 +13,4 @@ def get_progress_stats(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Получить общую статистику прогресса"""
     return get_overall_progress(db, current_user.id)

@@ -6,6 +6,7 @@ from app.api import auth, modules, tasks, progress
 from app.models.user import User
 from app.models.task import Task
 from app.models.module import Module
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="OAIP Learning Platform", version="1.0.0")

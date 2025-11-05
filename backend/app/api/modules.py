@@ -15,7 +15,6 @@ def get_modules(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Получить все модули с прогрессом"""
     modules = db.query(Module).order_by(Module.order).all()
     
     result = []
@@ -41,7 +40,6 @@ def get_module(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Получить модуль по ID"""
     module = db.query(Module).filter(Module.id == module_id).first()
     if not module:
         raise HTTPException(status_code=404, detail="Module not found")
