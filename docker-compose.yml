@@ -11,7 +11,9 @@ services:
     environment:
       - DATABASE_URL=sqlite:///./oaip_learning.db
       - SECRET_KEY=your-secret-key-change-in-production
+    command: sh -c "python seed_data.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     restart: unless-stopped
+
 
   frontend:
     build: ./frontend
